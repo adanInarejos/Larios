@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="720.0" stylesheets="@../styles/global.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.larios.LogInController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="1007.0" prefWidth="720.0" AnchorPane.bottomAnchor="-7.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="300.0" fitWidth="349.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/camarera.png" />
+               </image>
+               <VBox.margin>
+                  <Insets bottom="30.0" />
+               </VBox.margin>
+            </ImageView>
+            <TextField id="textFields" fx:id="campoTextoUsuario" prefHeight="39.0" prefWidth="320.0" promptText="Usuario..." stylesheets="@../styles/global.css">
+               <VBox.margin>
+                  <Insets left="100.0" right="100.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="campoTextoContrasena" prefHeight="39.0" prefWidth="320.0" promptText="Contrasena...">
+               <font>
+                  <Font size="21.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="100.0" right="100.0" top="10.0" />
+               </VBox.margin>
+            </TextField>
+            <Button fx:id="botonLogIn" mnemonicParsing="false" onAction="#OnCLick" prefHeight="41.0" prefWidth="149.0" text="Log In">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="556.0" fitWidth="527.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/logo_larios%20.png" />
+               </image>
+            </ImageView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

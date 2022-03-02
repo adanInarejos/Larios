@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class LogInController {
@@ -25,58 +26,73 @@ public class LogInController {
 
     private DBManager manager = new DBManager();
 
+    Usuario currentUser;
+
     @FXML
     private Button botonLogIn;
 
     @FXML
-    private TextField campoTextoUsuario;
-
-    @FXML
     private  TextField campoTextoContrasena;
 
+    @FXML
+    Text nombre;
+
     public LogInController() throws SQLException {
+    }
+
+    public void setCurrentUser(Usuario usuario){
+        currentUser = usuario;
+        nombre.setText(currentUser.getNombre());
     }
 
 
     @FXML
     public void OnCLick(ActionEvent event) throws IOException, SQLException {
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/Larios", "root", "");
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * from Usuarios;");
-        boolean alerta = true;
-        //while (rs.next()){
-        //    if (campoTextoUsuario.getText().equals(rs.getString("nombre")) && campoTextoContrasena.getText().equals(rs.getString("contrasena"))){
-        //        Parent root = FXMLLoader.load(getClass().getResource("logInWins.fxml"));
-        //        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        //        scene = new Scene(root);
-        //        stage.setScene(scene);
-        //        stage.show();
-        //        alerta=false;
-        //    } else {
+        // !!! PENDIENTE DE REVISION
+        if (campoTextoContrasena.getText().equals(currentUser.getContrasena())){
+            if (currentUser.administrador){
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminView.fxml"));
+                Parent root = loader.load();
+                stage = (Stage) botonLogIn.getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
 
-        //    }
-        //}
-        
-        List<Usuario> usuarios = manager.getListaUsuarios();
-        for (Usuario usuario : usuarios){
-            if (campoTextoUsuario.getText().equals(usuario.getNombre()) && campoTextoContrasena.getText().equals(usuario.getContrasena())){
-                        Parent root = FXMLLoader.load(getClass().getResource("logInWins.fxml"));
-                        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                        scene = new Scene(root);
-                        stage.setScene(scene);
-                        stage.show();
-                        alerta=false;
-                    } else {
+                AdminController adminController = loader.getController();
+                adminController.setCurrentUser(currentUser);
 
+            } else {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("TablesView.fxml"));
+                loader.setControllerFactory(type -> {
+                    if (type == TablesController.class) {
+                        try {
+                            return new TablesController(currentUser);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                     }
-        }
-        if (alerta){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error de Inicio de sesion");
-            alert.setContentText("Contrasena introducida no valida");
+                    // default behavior: need this in case there are <fx:include> in the FXML
+                    try {
+                        return type.getConstructor().newInstance();
+                    } catch (Exception exc) {
+                        // fatal...
+                        throw new RuntimeException(exc);
+                    }
+                });
+                Parent root = loader.load();
+                stage = (Stage) botonLogIn.getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+                //TablesController tablesController = loader.getController();
+                //tablesController.setCurrentUser(currentUser);
+            }
+
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Contrasena Erronea");
             alert.showAndWait();
         }
-
 
 
     }

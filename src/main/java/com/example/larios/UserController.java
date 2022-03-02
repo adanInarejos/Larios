@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import org.controlsfx.control.spreadsheet.Grid;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class UserController  {
 
@@ -34,8 +35,26 @@ public class UserController  {
         currenUser = usuario;
     }
 
-    public void ImageClick() throws IOException {
-       // System.out.println(currenUser.getNombre());
+    public void ImageClick() throws IOException, SQLException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("logInView.fxml"));
+        Parent root = loader.load();
+        stage = (Stage) icon.getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+
+
+
+        LogInController logInController = loader.getController();
+
+        //fxmlLoader.setController();
+        logInController.setCurrentUser(currenUser);
+
+
+
+
     }
 
 

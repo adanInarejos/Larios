@@ -15,7 +15,7 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException, SQLException {
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/Larios", "root", "");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/larios", "root", "Cide2050");
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("UsersView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 720, 1000);
         stage.setTitle("Larios");
